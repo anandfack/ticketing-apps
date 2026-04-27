@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,4 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware('auth')->group(function () {
+    // Route::get('/tickets', function () {
+    //     return Inertia::render('Tickets/Index');
+    // })->name('tickets.index');
+    Route::get('/tickets', [TicketController::class, 'index'])->name('ticket.index');
+});
+
+require __DIR__ . '/auth.php';

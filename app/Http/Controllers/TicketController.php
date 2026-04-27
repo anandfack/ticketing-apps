@@ -21,27 +21,25 @@ class TicketController extends Controller
 
         $query = Ticket::query();
 
-        // REQUESTER → only own tickets
         if ($user->hasRole('requester')) {
             $query->where('created_by', $user->id);
         }
 
-        // AGENT → only assigned tickets
         if ($user->hasRole('agent')) {
             $query->where('assigned_to', $user->id);
         }
 
-        // SUPERVISOR → all tickets (no filter)
+        // supervisor & admin: no restriction
 
-        // ADMIN → all tickets
-
-        $tickets = $query->latest()->get();
+        $tickets = $query
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return inertia('Tickets/Index', [
             'tickets' => $tickets
         ]);
     }
-
     /*
     |--------------------------------------
     | SHOW SINGLE TICKET
