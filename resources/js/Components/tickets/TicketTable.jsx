@@ -17,6 +17,7 @@ export default function TicketTable({ tickets, user }) {
                 <TableHeader>
                     <TableRow>
                         <TableHead>#</TableHead>
+                        <TableHead>Ticket Number</TableHead>
                         <TableHead>Title</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Priority</TableHead>
@@ -26,24 +27,32 @@ export default function TicketTable({ tickets, user }) {
                 </TableHeader>
 
                 <TableBody>
-                    {tickets.data.map((ticket) => (
-                        <TableRow key={ticket.id}>
-                            <TableCell>#{ticket.id}</TableCell>
-                            <TableCell>{ticket.title}</TableCell>
+                    {tickets.data.map((ticket) => {
+                        console.log("Ticket :", ticket);
+                        return (
+                            <TableRow key={ticket.id}>
+                                <TableCell>#{ticket.id}</TableCell>
+                                <TableCell>{ticket.ticket_number}</TableCell>
+                                <TableCell>{ticket.title}</TableCell>
 
-                            <TableCell>
-                                <StatusBadge status={ticket.status} />
-                            </TableCell>
+                                <TableCell>
+                                    <StatusBadge status={ticket.status} />
+                                </TableCell>
 
-                            <TableCell>{ticket.priority}</TableCell>
+                                <TableCell>{ticket.priority}</TableCell>
 
-                            <TableCell>{ticket.assigned_to ?? "-"}</TableCell>
+                                <TableCell>
+                                    {ticket.assigned_to ?? "-"}
+                                </TableCell>
 
-                            <TableCell className="text-right">
-                                <Link href={`/tickets/${ticket.id}`}>View</Link>
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                                <TableCell className="text-right">
+                                    <Link href={`/tickets/${ticket.id}`}>
+                                        View
+                                    </Link>
+                                </TableCell>
+                            </TableRow>
+                        );
+                    })}
                 </TableBody>
             </Table>
         </div>
